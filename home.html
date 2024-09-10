@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="황승보">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css">
+  <link rel="icon" href="icon/favicon.png">
+  <link rel="stylesheet" href="CSS/app.css">
+  <link rel="stylesheet" href="CSS/clock.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.1/jsmpg.js"></script>
+  <title>Monitoring System</title>
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=z2oib4acqd"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+</head>
+
+<body>
+
+  <div>
+
+    <!-- canvas를 포함한 div의 크기를 수정해주는 것으로 화면사이즈를 플렉시블하게 조절한다. -->
+    <div id="backgroundlayer">
+
+      <canvas class="can1" id="cameravision" width="640" height="360">
+      </canvas>  
+      <!-- width 및 height 설정은 이 태그내에서만 이루어져야한다. -->
+    </div>
+    <div id="backgroundlayer">
+
+      <canvas class="can2" id="cameravision" width="640" height="360">
+      </canvas>  
+      <!-- width 및 height 설정은 이 태그내에서만 이루어져야한다. -->
+    </div>
+
+ 
+
+  <script>
+    const client1 = new WebSocket("ws://127.0.0.1:9999/");
+    var canvas1 = document.querySelector('.can1');
+    var player = new jsmpeg(client1, {
+      canvas: canvas1
+    });
+
+    const client2 = new WebSocket("ws://127.0.0.1:9001/");
+    var canvas2 = document.querySelector('.can2');
+    var player = new jsmpeg(client2, {
+      canvas: canvas2
+    });
+  
+  </script>
+
+
+
+
+</body>
+
+</html>
