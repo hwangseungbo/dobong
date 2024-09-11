@@ -119,7 +119,6 @@ app.get('/', async (req, res) => {
 // 루트 경로에 대한 POST 요청을 처리합니다.
 app.post('/', async (req, res) => {
     try {
-        //console.log(JSON.stringify(req.body));
         const newLog = new Log(req.body);
         await newLog.save();
 
@@ -151,18 +150,26 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-    console.log(user);
-    process.nextTick(() => {
-        done(null, { id: user._id, username: user.username });
-    });
+    try {
+        console.log(user);
+        process.nextTick(() => {
+            done(null, { id: user._id, username: user.username });
+        });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 passport.deserializeUser(async (user, done) => {
-    let result = await Users.findOne({ _id: new ObjectId(user.id) });
-    delete result.password;
-    process.nextTick(() => {
-        done(null, result);
-    });
+    try {
+        let result = await Users.findOne({ _id: new ObjectId(user.id) });
+        delete result.password;
+        process.nextTick(() => {
+            done(null, result);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 // API
@@ -182,8 +189,8 @@ app.get('/log', async (req, res) => {
     try {
         // 최근 저장된 300개 데이터 가져오기
         const logs = await Log.find({})
-            .sort({ createdAt: -1 }) // 최신순으로 정렬
-            .limit(300); // 최대 300개의 데이터만 가져오기
+            .sort({ time: -1 }) // 최신순으로 정렬
+            .limit(1000); // 최대 300개의 데이터만 가져오기
 
         res.send(logs); // 데이터를 JSON으로 응답
     } catch (err) {
