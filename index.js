@@ -93,8 +93,8 @@ const logSchema = new mongoose.Schema(
     { strict: false }
 );
 
-// TTL 인덱스 설정 (1일 후 만료)
-logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 1 }); // 1일
+// TTL 인덱스 설정 (90일 후 만료)
+logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 90 }); // 90일
 
 const Log = mongoose.model('Log', logSchema); // logs 컬렉션에 저장
 
